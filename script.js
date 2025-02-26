@@ -104,7 +104,4 @@ function gerarPDF() {
 
     // Gera o PDF
     html2pdf().set(opt).from(container).save();
-
-    // Limpar os registros após gerar o PDF (opcional)
-    registros = [];
 }
