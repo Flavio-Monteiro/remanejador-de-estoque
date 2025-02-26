@@ -63,3 +63,4 @@ function gerarPDF() {
         jsPDF: { unit: "mm", format: "a4", orientation: "landscape" }
     }).from(container).save();
 }
+// OK
