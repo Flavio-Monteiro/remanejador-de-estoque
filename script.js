@@ -102,6 +102,6 @@ function gerarPDF() {
         jsPDF: { unit: "mm", format: "a4", orientation: "landscape" }
     };
 
-    // Gera o PDF
+    // Gera o PDF codigo correto
     html2pdf().set(opt).from(container).save();
 }
