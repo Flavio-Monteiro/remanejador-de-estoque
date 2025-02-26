@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Retirada</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE DE PÃES</h2>
+        <label>Nome do Funcionário:</label>
+        <input type="text" id="nome" placeholder="Seu nome">
+        <label>Setor:</label>
+        <input type="text" id="setor" placeholder="Setor">
+        <label>Cód. Origem:</label>
+        <input type="text" id="codOrigem">
+        <label>Descrição do Produto Origem:</label>
+        <input type="text" id="descOrigem">
+        <label>Quantidade:</label>
+        <input type="number" id="quantOrigem">
+        <label>Cód. Destino:</label>
+        <input type="text" id="codDestino">
+        <label>Produto Destino:</label>
+        <input type="text" id="descDestino">
+        <label>Quantidade:</label>
+        <input type="number" id="quantDestino">
+        <button onclick="adicionarRegistro()">Adicionar</button>
+        <button onclick="gerarPDF()">Exportar para PDF</button>
+        
+        <table id="tabela">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Setor</th>
+                    <th>Cód. Origem</th>
+                    <th>Produto Origem</th>
+                    <th>Quant</th>
+                    <th>Cód. Destino</th>
+                    <th>Produto Destino</th>
+                    <th>Quant</th>
+                    <th>Data</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
