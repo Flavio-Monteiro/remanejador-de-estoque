@@ -68,9 +68,7 @@ h1 {
     background: #358b7f
 }
 }
-#exportarPDF {
-    background: ;
-}
+
 
 
 button {
@@ -167,7 +165,8 @@ td button:hover {
     }
 
     .btnAdcionar, #exportarPDF {
-        height: 40px; /* Reduz a altura dos botões */
+        height: 50px; /* Reduz a altura dos botões */
+        width: 90%;
     }
 
     table {
