@@ -62,6 +62,16 @@ h1 {
     width: 100%; /* Ocupa 100% da largura em dispositivos móveis */
     max-width: 250px; /* Limita a largura máxima */
 }
+.btnAdcionar {
+    background: #41B3A2;
+&:hover {
+    background: #358b7f
+}
+}
+#exportarPDF {
+    background: ;
+}
+
 
 button {
     background-color: #007BFF;
