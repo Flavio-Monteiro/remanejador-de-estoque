@@ -1,3 +1,29 @@
+// Função para salvar os dados da tabela no localStorage
+function salvarDados() {
+    const tabela = document.getElementById("tabela").innerHTML;
+    localStorage.setItem("dadosTabela", tabela);
+}
+
+// Função para carregar os dados do localStorage
+function carregarDados() {
+    const dados = localStorage.getItem("dadosTabela");
+    if (dados) {
+        document.getElementById("tabela").innerHTML = dados;
+
+        // Reaplicar o evento de remoção aos botões "Remover"
+        document.querySelectorAll("td button").forEach(button => {
+            button.onclick = function () {
+                this.parentElement.parentElement.remove();
+                salvarDados(); // Salvar os dados após remover um registro
+            };
+        });
+    }
+}
+
+// Carregar os dados ao abrir a página
+window.onload = carregarDados;
+
+// Função para adicionar um registro
 function adicionarRegistro() {
     const setor = document.getElementById("setor").value;
     const funcionario = document.getElementById("funcionario").value;
@@ -8,14 +34,17 @@ function adicionarRegistro() {
     const descDestino = document.getElementById("descDestino").value;
     const quantDestino = document.getElementById("quantDestino").value;
 
+    // Verificar se todos os campos foram preenchidos
     if (!setor || !funcionario || !codOrigem || !descOrigem || !quantOrigem || !codDestino || !descDestino || !quantDestino) {
         alert("Preencha todos os campos!");
         return;
     }
 
+    // Inserir uma nova linha na tabela
     const tabela = document.getElementById("tabela").getElementsByTagName("tbody")[0];
     const novaLinha = tabela.insertRow();
 
+    // Preencher as células da nova linha
     novaLinha.insertCell(0).textContent = setor;
     novaLinha.insertCell(1).textContent = funcionario;
     novaLinha.insertCell(2).textContent = codOrigem;
@@ -30,13 +59,18 @@ function adicionarRegistro() {
     btnRemover.textContent = "Remover";
     btnRemover.onclick = function () {
         this.parentElement.parentElement.remove();
+        salvarDados(); // Salvar os dados após remover um registro
     };
     novaLinha.insertCell(8).appendChild(btnRemover);
 
-    // Limpar os campos
+    // Limpar os campos do formulário
     document.querySelectorAll(".formulario input").forEach(input => input.value = "");
+
+    // Salvar os dados após adicionar um registro
+    salvarDados();
 }
 
+// Função para gerar PDF
 function gerarPDF() {
     const tabela = document.getElementById("tabela").cloneNode(true);
 
@@ -51,7 +85,13 @@ function gerarPDF() {
     titulo.textContent = "SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE DE PÃES";
     titulo.style.textAlign = "center";
 
+    // Adicionar a data atual
+    const dataAtual = document.createElement("p");
+    dataAtual.textContent = "Data: " + new Date().toLocaleDateString();
+    dataAtual.style.textAlign = "center";
+
     container.appendChild(titulo);
+    container.appendChild(dataAtual); // Adicionar a data ao container
     container.appendChild(tabela);
 
     // Gerar PDF
@@ -63,4 +103,3 @@ function gerarPDF() {
         jsPDF: { unit: "mm", format: "a4", orientation: "landscape" }
     }).from(container).save();
 }
-// OK
