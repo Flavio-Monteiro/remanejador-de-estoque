@@ -15,6 +15,7 @@ body {
     min-height: 100vh;
     /* Garante que o body ocupe pelo menos a altura da tela */
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -32,6 +33,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    /* align-items: center; */
     /* Distribui o espaço entre os elementos */
 
     & h1 {
@@ -94,6 +96,9 @@ span {
 }
 
 .btnAdcionar {
+    border: none;
+    color: #f4f4f4;
+    border-radius: 5px;
     background: #41B3A2;
 
     &:hover {
@@ -104,7 +109,7 @@ span {
 
 
 
-button {
+#exportarPDF {
     background: #C96868;
     color: white;
     padding: 8px 12px;
@@ -151,10 +156,11 @@ td button {
     color: white;
     cursor: pointer;
     padding: 5px 10px;
-}
+    border-radius: 5px;
 
-td button:hover {
-    background-color: darkred;
+    &:hover {
+        background-color: darkred;
+    }
 }
 
 /* Ajuste para impressão */
@@ -201,6 +207,14 @@ td button:hover {
         padding: 6px;
         /* Reduz o padding das células */
     }
+    .btnAdcionar,
+    #exportarPDF,
+    #exportarXLS {
+        height: 50px;
+        /* Reduz a altura dos botões */
+        width: 100%;
+
+    }
 }
 
 @media (max-width: 480px) {
@@ -215,7 +229,8 @@ td button:hover {
     }
 
     .btnAdcionar,
-    #exportarPDF {
+    #exportarPDF,
+    #exportarXLS {
         height: 50px;
         /* Reduz a altura dos botões */
         width: 100%;
@@ -232,4 +247,17 @@ td button:hover {
         padding: 4px;
         /* Reduz o padding das células */
     }
+}
+
+footer {
+    max-width: 1200px;
+    width: 100%;
+    background-color: #17161C;
+    height: 50px;
+    color: #f4f4f4;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
 }
