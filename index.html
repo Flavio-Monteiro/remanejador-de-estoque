@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,17 +12,17 @@
         <h1>SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE DE PÃES</h1>
 
         <div class="formulario">
-            <input type="text" id="setor" placeholder="Setor">
-            <input type="text" id="funcionario" placeholder="Nome do Funcionário">
-            <input type="text" id="codOrigem" placeholder="Cód. Origem">
-            <input type="text" id="descOrigem" placeholder="Código de Retirada">
-            <input type="number" id="quantOrigem" placeholder=" Quantidade Retirada">
+            <input type="text" id="setor" placeholder="* Setor">
+            <input type="text" id="funcionario" placeholder="* Nome do Funcionário">
+            <input type="text" id="codOrigem" placeholder="* Cód. Origem">
+            <input type="text" id="descOrigem" placeholder="* Produto Retirado">
+            <input type="number" id="quantOrigem" placeholder="* Quantidade Retirada">
             <input type="text" id="codDestino" placeholder="Código de Produção">
             <input type="text" id="descDestino" placeholder=" Produto de Produção">
             <input type="number" id="quantDestino" placeholder=" Quantidade para Produção">
         </div>
+        <span>* dados obrigatórios</span>
         <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
-
         <div id="tabelaContainer">
             <table id="tabela">
                 <thead>
@@ -42,9 +43,12 @@
         </div>
 
         <button id="exportarPDF" onclick="gerarPDF()">Exportar PDF</button>
+    <input id="exportarXLS" type="button" value="Exportar XLS" onclick="exportarXLS()">
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -7,31 +7,41 @@
 
 body {
     background-color: #f4f4f4;
+    background-image: url(bgimg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     padding: 20px;
     text-align: center;
-    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura da tela */
+    min-height: 100vh;
+    /* Garante que o body ocupe pelo menos a altura da tela */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .container {
-    background: white;
+    background: rgba(255, 255, 255, 0.921);
     padding: 20px;
     max-width: 1200px;
     width: 100%;
     margin: auto;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    min-height: 90vh; /* Ocupa 90% da altura da tela */
+    min-height: 90vh;
+    /* Ocupa 90% da altura da tela */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribui o espaço entre os elementos */
+    justify-content: space-between;
+    /* Distribui o espaço entre os elementos */
+
+    & h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
 }
 
-h1 {
-    font-size: 20px;
-    margin-bottom: 15px;
+span {
+    color: #ef5959;
 }
 
 .formulario {
@@ -45,48 +55,73 @@ h1 {
     /* border: 1px solid #e0e0e0c4; */
     background: #FBFBFB;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+    & input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        /* Ocupa 100% da largura em dispositivos móveis */
+        max-width: 400px;
+        /* Limita a largura máxima */
+        height: 60px;
+    }
 }
 
-.formulario input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%; /* Ocupa 100% da largura em dispositivos móveis */
-    max-width: 400px; /* Limita a largura máxima */
-    height: 60px;
-}
 
-.btnAdcionar, #exportarPDF {
+.btnAdcionar,
+#exportarPDF,
+#exportarXLS {
     margin: 5px;
     height: 50px;
-    width: 100%; /* Ocupa 100% da largura em dispositivos móveis */
-    max-width: 250px; /* Limita a largura máxima */
+    width: 100%;
+    /* Ocupa 100% da largura em dispositivos móveis */
+    max-width: 250px;
+    /* Limita a largura máxima */
+
 }
+
+#exportarXLS {
+    background: #16C47F;
+    border: none;
+    border-radius: 5px;
+    color: #f4f4f4;
+
+    &:hover {
+        background: #10915d;
+        cursor: pointer;
+    }
+}
+
 .btnAdcionar {
     background: #41B3A2;
-&:hover {
-    background: #358b7f
-}
+
+    &:hover {
+        background: #358b7f;
+
+    }
 }
 
 
 
 button {
-    background-color: #007BFF;
+    background: #C96868;
     color: white;
     padding: 8px 12px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+
+    &:hover {
+        background-color: #a25353;
+    }
 }
 
-button:hover {
-    background-color: #0056b3;
-}
 
 #tabelaContainer {
     overflow-x: auto;
-    flex-grow: 1; /* Faz a tabela ocupar o espaço restante */
+    flex-grow: 1;
+    /* Faz a tabela ocupar o espaço restante */
     margin-bottom: 15px;
 }
 
@@ -94,18 +129,21 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+
+    & th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    & th {
+        background-color: #007BFF;
+        color: white;
+    }
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
 
-th {
-    background-color: #007BFF;
-    color: white;
-}
 
 td button {
     background-color: red;
@@ -124,9 +162,12 @@ td button:hover {
     body {
         background: white;
     }
-    .formulario, #exportarPDF {
+
+    .formulario,
+    #exportarPDF {
         display: none;
     }
+
     table {
         font-size: 12px;
     }
@@ -135,45 +176,60 @@ td button:hover {
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
     h1 {
-        font-size: 18px; /* Reduz o tamanho do título */
+        font-size: 18px;
+        /* Reduz o tamanho do título */
     }
 
     .formulario input {
-        height: 50px; /* Reduz a altura dos inputs */
+        height: 50px;
+        /* Reduz a altura dos inputs */
     }
 
-    .btnAdcionar, #exportarPDF {
-        height: 45px; /* Reduz a altura dos botões */
+    .btnAdcionar,
+    #exportarPDF {
+        height: 45px;
+        /* Reduz a altura dos botões */
     }
 
     table {
-        font-size: 14px; /* Reduz o tamanho da fonte da tabela */
+        font-size: 14px;
+        /* Reduz o tamanho da fonte da tabela */
     }
 
-    th, td {
-        padding: 6px; /* Reduz o padding das células */
+    th,
+    td {
+        padding: 6px;
+        /* Reduz o padding das células */
     }
 }
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 16px; /* Reduz ainda mais o tamanho do título */
+        font-size: 16px;
+        /* Reduz ainda mais o tamanho do título */
     }
 
     .formulario input {
-        height: 45px; /* Reduz a altura dos inputs */
+        height: 45px;
+        /* Reduz a altura dos inputs */
     }
 
-    .btnAdcionar, #exportarPDF {
-        height: 50px; /* Reduz a altura dos botões */
-        width: 90%;
+    .btnAdcionar,
+    #exportarPDF {
+        height: 50px;
+        /* Reduz a altura dos botões */
+        width: 100%;
+
     }
 
     table {
-        font-size: 12px; /* Reduz o tamanho da fonte da tabela */
+        font-size: 12px;
+        /* Reduz o tamanho da fonte da tabela */
     }
 
-    th, td {
-        padding: 4px; /* Reduz o padding das células */
+    th,
+    td {
+        padding: 4px;
+        /* Reduz o padding das células */
     }
 }
