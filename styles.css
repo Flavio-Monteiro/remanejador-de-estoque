@@ -40,11 +40,18 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
 
-    & h1 {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
+.container h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+#setor,
+#funcionario,
+#codOrigem,
+#descOrigem,
+#quantOrigem {
+    color: #e63c3c;
 }
 
 span {
@@ -61,24 +68,24 @@ span {
     border-radius: 5px;
     background: #FBFBFB;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
-    & input {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        width: 100%;
-        max-width: 400px;
-        height: 60px;
-    }
+.formulario input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+}
 
-    & input[type="date"] {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        width: 100%;
-        max-width: 400px;
-        height: 60px;
-    }
+.formulario input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
 }
 
 .btnAdcionar,
@@ -95,11 +102,11 @@ span {
     border: none;
     border-radius: 5px;
     color: #f4f4f4;
+}
 
-    &:hover {
-        background: #10915d;
-        cursor: pointer;
-    }
+#exportarXLS:hover {
+    background: #10915d;
+    cursor: pointer;
 }
 
 .btnAdcionar {
@@ -108,13 +115,13 @@ span {
     border-radius: 5px;
     background: #41B3A2;
     box-shadow: 2px 2px 3px rgba(104, 104, 104, 0.521);
+}
 
-    &:hover {
-        background: #358b7f;
-        cursor: pointer;
-        transform: translate(2px, 4px);
-        box-shadow: none;
-    }
+.btnAdcionar:hover {
+    background: #358b7f;
+    cursor: pointer;
+    transform: translate(2px, 4px);
+    box-shadow: none;
 }
 
 #exportarPDF {
@@ -124,10 +131,10 @@ span {
     border: none;
     cursor: pointer;
     border-radius: 5px;
+}
 
-    &:hover {
-        background-color: #a25353;
-    }
+#exportarPDF:hover {
+    background-color: #a25353;
 }
 
 #tabelaContainer {
@@ -140,31 +147,43 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+}
 
-    & th,
-    & td {
-        padding: 10px;
-        text-align: left;
-        border: 1px solid #ddd;
-    }
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
 
-    & th {
-        background-color: #dbdbdb;
-        color: rgb(27, 27, 27);
-    }
+table th {
+    background-color: #dbdbdb;
+    color: rgb(27, 27, 27);
 }
 
 td button {
     background-color: red;
+    width: 90px;
+    height: 30px;
+    margin: 5px;
     border: none;
     color: white;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 5px;
     border-radius: 5px;
+}
 
-    &:hover {
-        background-color: darkred;
-    }
+td button:hover {
+    background-color: darkred;
+}
+
+td button.editar {
+    background-color: #41B3A2;
+    margin-right: 5px;
+}
+
+td button.editar:hover {
+    background-color: #358b7f;
 }
 
 footer {
@@ -181,13 +200,71 @@ footer {
     border-radius: 5px;
 }
 
+/* Estilos para o formulário de edição */
+.formulario-edicao {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #f0fcff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.434);
+    z-index: 1000;
+}
+
+.formulario-edicao h2 {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.formulario-edicao input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.formulario-edicao button {
+    margin: 5px;
+    height: 50px;
+    width: 100%;
+    max-width: 250px;
+    border: none;
+    border-radius: 5px;
+    color: #f4f4f4;
+    cursor: pointer;
+}
+
+.formulario-edicao button:first-of-type {
+    background: #41B3A2;
+}
+
+.formulario-edicao button:first-of-type:hover {
+    background: #358b7f;
+}
+
+.formulario-edicao button:last-of-type {
+    background: #C96868;
+}
+
+.formulario-edicao button:last-of-type:hover {
+    background: #68a253;
+}
+
+/* Estilos para impressão */
 @media print {
     body {
         background: white;
     }
 
     .formulario,
-    #exportarPDF {
+    #exportarPDF,
+    .formulario-edicao {
         display: none;
     }
 
@@ -196,6 +273,7 @@ footer {
     }
 }
 
+/* Estilos responsivos */
 @media (max-width: 768px) {
     h1 {
         font-size: 18px;

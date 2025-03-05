@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("exportarXLS").addEventListener("click", exportarXLS);
 });
 
+let linhaEditando = null;
+
 function adicionarRegistro() {
     const setor = document.getElementById("setor").value;
     const funcionario = document.getElementById("funcionario").value;
@@ -76,6 +78,12 @@ function criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem
         novaLinha.appendChild(celula);
     });
 
+    const btnEditar = document.createElement("button");
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", function () {
+        editarRegistro(this.closest("tr"));
+    });
+
     const btnRemover = document.createElement("button");
     btnRemover.textContent = "Remover";
     btnRemover.addEventListener("click", function () {
@@ -84,10 +92,50 @@ function criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem
     });
 
     const celulaAcao = document.createElement("td");
+    celulaAcao.appendChild(btnEditar);
     celulaAcao.appendChild(btnRemover);
     novaLinha.appendChild(celulaAcao);
 
     return novaLinha;
+}
+
+function editarRegistro(linha) {
+    linhaEditando = linha;
+    const celulas = linha.querySelectorAll("td");
+
+    document.getElementById("editSetor").value = celulas[0].textContent;
+    document.getElementById("editFuncionario").value = celulas[1].textContent;
+    document.getElementById("editCodOrigem").value = celulas[2].textContent;
+    document.getElementById("editDescOrigem").value = celulas[3].textContent;
+    document.getElementById("editQuantOrigem").value = celulas[4].textContent;
+    document.getElementById("editCodDestino").value = celulas[5].textContent;
+    document.getElementById("editDescDestino").value = celulas[6].textContent;
+    document.getElementById("editQuantDestino").value = celulas[7].textContent;
+    document.getElementById("editData").value = celulas[8].textContent;
+
+    document.getElementById("formEdicao").style.display = "block";
+}
+
+function salvarEdicao() {
+    const celulas = linhaEditando.querySelectorAll("td");
+
+    celulas[0].textContent = document.getElementById("editSetor").value;
+    celulas[1].textContent = document.getElementById("editFuncionario").value;
+    celulas[2].textContent = document.getElementById("editCodOrigem").value;
+    celulas[3].textContent = document.getElementById("editDescOrigem").value;
+    celulas[4].textContent = document.getElementById("editQuantOrigem").value;
+    celulas[5].textContent = document.getElementById("editCodDestino").value;
+    celulas[6].textContent = document.getElementById("editDescDestino").value;
+    celulas[7].textContent = document.getElementById("editQuantDestino").value;
+    celulas[8].textContent = document.getElementById("editData").value;
+
+    salvarDados();
+    cancelarEdicao();
+}
+
+function cancelarEdicao() {
+    document.getElementById("formEdicao").style.display = "none";
+    linhaEditando = null;
 }
 
 function exportarXLS() {
@@ -99,25 +147,21 @@ function exportarXLS() {
 }
 
 function gerarPDF() {
-    // Cria um novo documento PDF
     const doc = new jspdf.jsPDF({
-        orientation: "landscape", // Orientação paisagem
+        orientation: "landscape",
         unit: "mm",
         format: "a4",
     });
 
-    // Adiciona o título ao PDF
     doc.setFontSize(18);
     doc.text("Relatório de Remanejamento de Estoque de Pães", 15, 20);
 
-    // Adiciona a data atual ao PDF
     const hoje = new Date();
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const dataAtual = `Data: ${hoje.toLocaleDateString('pt-BR', options)}`;
     doc.setFontSize(12);
     doc.text(dataAtual, doc.internal.pageSize.width - 15, 20, { align: "right" });
 
-    // Prepara os dados da tabela
     const headers = [
         "Setor",
         "Funcionário",
@@ -135,36 +179,34 @@ function gerarPDF() {
         const celulas = linha.querySelectorAll("td");
         const rowData = [];
         celulas.forEach((celula, index) => {
-            if (index < 9) { // Ignora a coluna de ação (índice 9)
+            if (index < 9) {
                 rowData.push(celula.textContent);
             }
         });
         rows.push(rowData);
     });
 
-    // Adiciona a tabela ao PDF
     doc.autoTable({
         head: [headers],
         body: rows,
-        startY: 30, // Posição inicial da tabela
-        theme: "grid", // Estilo da tabela
+        startY: 30,
+        theme: "grid",
         styles: {
-            fontSize: 8, // Tamanho da fonte
-            cellPadding: 2, // Espaçamento interno das células
-            textColor: [0, 0, 0], // Cor da fonte (preto)
+            fontSize: 8,
+            cellPadding: 2,
+            textColor: [0, 0, 0],
         },
         headStyles: {
-            fillColor: [51, 51, 51], // Cor de fundo do cabeçalho (cinza escuro)
-            textColor: [255, 255, 255], // Cor da fonte do cabeçalho (branco)
-            fontSize: 12, // Tamanho da fonte do cabeçalho
-            cellPadding: 2, // Espaçamento interno do cabeçalho
+            fillColor: [51, 51, 51],
+            textColor: [255, 255, 255],
+            fontSize: 12,
+            cellPadding: 2,
         },
         alternateRowStyles: {
-            fillColor: [245, 245, 245], // Cor de fundo das linhas alternadas
+            fillColor: [245, 245, 245],
         },
-        margin: { top: 20 }, // Margem superior
+        margin: { top: 20 },
     });
 
-    // Salva o PDF
     doc.save("remanejamento_de_estoque_padaria.pdf");
 }

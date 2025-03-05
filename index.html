@@ -1,55 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solicitação de Remanejamento</title>
     <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
+</head>
+<body>
     <section>
-      <div class="container">
-        <h1>SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE DE PÃES</h1>
-        <div class="formulario">
-          <input type="text" id="setor" placeholder="* Setor" />
-          <input type="text" id="funcionario" placeholder="* Nome do Funcionário" />
-          <input type="text" id="codOrigem" placeholder="* Cód. Origem" />
-          <input type="text" id="descOrigem" placeholder="* Produto Retirado" />
-          <input type="number" id="quantOrigem" placeholder="* Quantidade Retirada" />
-          <input type="text" id="codDestino" placeholder="Código de Produção" />
-          <input type="text" id="descDestino" placeholder=" Produto de Produção" />
-          <input type="number" id="quantDestino" placeholder=" Quantidade para Produção" />
-          <input type="date" id="data" placeholder="Data" />
+        <div class="container">
+            <h1>SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE DE PÃES</h1>
+            <div class="formulario">
+                <input type="text" id="setor" placeholder="* Setor" />
+                <input type="text" id="funcionario" placeholder="* Nome do Funcionário" />
+                <input type="text" id="codOrigem" placeholder="* Cód. Origem" />
+                <input type="text" id="descOrigem" placeholder="* Produto Retirado" />
+                <input type="number" id="quantOrigem" placeholder="* Quantidade Retirada" />
+                <input type="text" id="codDestino" placeholder="Código de Produção" />
+                <input type="text" id="descDestino" placeholder=" Produto de Produção" />
+                <input type="number" id="quantDestino" placeholder=" Quantidade para Produção" />
+                <input type="date" id="data" placeholder="Data" />
+            </div>
+            <span>* dados obrigatórios</span>
+            <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
+            <div id="tabelaContainer">
+                <table id="tabela">
+                    <thead>
+                        <tr>
+                            <th>Setor</th>
+                            <th>Funcionário</th>
+                            <th>Código de Retirada</th>
+                            <th>Produto Retirado</th>
+                            <th>Quantidade Retirada</th>
+                            <th>Código de Produção</th>
+                            <th>Produto de Produção</th>
+                            <th>Quantidade para Produção</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <button id="exportarPDF" onclick="gerarPDF()">Exportar PDF</button>
+            <input id="exportarXLS" type="button" value="Exportar para Excel" onclick="exportarXLS()" />
         </div>
-        <span>* dados obrigatórios</span>
-        <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
-        <div id="tabelaContainer">
-          <table id="tabela">
-            <thead>
-              <tr>
-                <th>Setor</th>
-                <th>Funcionário</th>
-                <th>Código de Retirada</th>
-                <th>Produto Retirado</th>
-                <th>Quantidade Retirada</th>
-                <th>Código de Produção</th>
-                <th>Produto de Produção</th>
-                <th>Quantidade para Produção</th>
-                <th>Data</th>
-                <th>Ação</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <button id="exportarPDF" onclick="gerarPDF()">Exportar PDF</button>
-        <input id="exportarXLS" type="button" value="Exportar para Excel" onclick="exportarXLS()" />
-      </div>
-      <footer>Desenvolvido por Flávio Monteiro &copy;</footer>
+        <footer>Desenvolvido por Flávio Monteiro &copy;</footer>
     </section>
+
+    <!-- Formulário de Edição (Oculto por padrão) -->
+    <div id="formEdicao" class="formulario-edicao">
+        <h2>Editar Registro</h2>
+        <input type="text" id="editSetor" placeholder="* Setor" />
+        <input type="text" id="editFuncionario" placeholder="* Nome do Funcionário" />
+        <input type="text" id="editCodOrigem" placeholder="* Cód. Origem" />
+        <input type="text" id="editDescOrigem" placeholder="* Produto Retirado" />
+        <input type="number" id="editQuantOrigem" placeholder="* Quantidade Retirada" />
+        <input type="text" id="editCodDestino" placeholder="Código de Produção" />
+        <input type="text" id="editDescDestino" placeholder=" Produto de Produção" />
+        <input type="number" id="editQuantDestino" placeholder=" Quantidade para Produção" />
+        <input type="date" id="editData" placeholder="Data" />
+        <button onclick="salvarEdicao()">Salvar</button>
+        <button onclick="cancelarEdicao()">Cancelar</button>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
