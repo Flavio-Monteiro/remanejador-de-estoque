@@ -242,16 +242,19 @@ footer {
 
 .formulario-edicao button:first-of-type {
     background: #41B3A2;
-    width: 100px;
+    width: 250px;
+    height: 60px;
 }
 
 .formulario-edicao button:first-of-type:hover {
     background: #358b7f;
+    
 }
 
 .formulario-edicao button:last-of-type {
     background: #C96868;
-    width: 185px;
+    width: 250px;
+    height: 60px;
 }
 
 .formulario-edicao button:last-of-type:hover {
