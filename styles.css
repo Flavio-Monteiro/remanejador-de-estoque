@@ -121,8 +121,7 @@ span {
 .btnAdcionar:hover {
     background: #358b7f;
     cursor: pointer;
-    transform: translate(2px, 4px);
-    box-shadow: none;
+
 }
 
 #exportarPDF {
@@ -163,7 +162,7 @@ table th {
 }
 
 td button {
-    background-color: red;
+    background-color: rgb(231, 82, 82);
     width: 90px;
     height: 30px;
     margin: 5px;
@@ -208,7 +207,7 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #f0fcff;
+    background: #fafeff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.434);
@@ -243,6 +242,7 @@ footer {
 
 .formulario-edicao button:first-of-type {
     background: #41B3A2;
+    width: 100px;
 }
 
 .formulario-edicao button:first-of-type:hover {
@@ -251,10 +251,12 @@ footer {
 
 .formulario-edicao button:last-of-type {
     background: #C96868;
+    width: 185px;
 }
 
 .formulario-edicao button:last-of-type:hover {
-    background: #68a253;
+    background: #e04545;
+    
 }
 
 /* Estilos para impressão */

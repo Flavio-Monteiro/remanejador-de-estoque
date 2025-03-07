@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solicitação de Remanejamento</title>
     <link rel="stylesheet" href="styles.css" />
+    
 </head>
 <body>
     <section>
@@ -20,9 +21,11 @@
                 <input type="text" id="descDestino" placeholder=" Produto de Produção" />
                 <input type="number" id="quantDestino" placeholder=" Quantidade para Produção" />
                 <input type="date" id="data" placeholder="Data" />
+                <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
+                <button id="exportarPDF" onclick="gerarPDF()">Exportar PDF</button>
+                <input id="exportarXLS" type="button" value="Exportar para Excel" onclick="exportarXLS()" />
             </div>
             <span>* dados obrigatórios</span>
-            <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
             <div id="tabelaContainer">
                 <table id="tabela">
                     <thead>
@@ -36,14 +39,14 @@
                             <th>Produto de Produção</th>
                             <th>Quantidade para Produção</th>
                             <th>Data</th>
+                            <th>Observação</th> <!-- Nova coluna de Observação -->
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
-            <button id="exportarPDF" onclick="gerarPDF()">Exportar PDF</button>
-            <input id="exportarXLS" type="button" value="Exportar para Excel" onclick="exportarXLS()" />
+            
         </div>
         <footer>Desenvolvido por Flávio Monteiro &copy;</footer>
     </section>
@@ -60,10 +63,10 @@
         <input type="text" id="editDescDestino" placeholder=" Produto de Produção" />
         <input type="number" id="editQuantDestino" placeholder=" Quantidade para Produção" />
         <input type="date" id="editData" placeholder="Data" />
-        <button onclick="salvarEdicao()">Salvar</button>
-        <button onclick="cancelarEdicao()">Cancelar</button>
+        <button class="salvarEdicao" onclick="salvarEdicao()">Salvar</button>
+        <button class="cancelarEdicao" onclick="cancelarEdicao()">Cancelar</button>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="script.js"></script>
