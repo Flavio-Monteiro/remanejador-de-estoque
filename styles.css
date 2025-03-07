@@ -46,6 +46,13 @@ section {
     font-size: 20px;
     margin-bottom: 15px;
 }
+#setor,
+#funcionario,
+#codOrigem,
+#descOrigem,
+#quantOrigem {
+    color: #e63c3c;
+}
 
 span {
     color: #ef5959;
@@ -57,17 +64,18 @@ span {
     gap: 10px;
     justify-content: center;
     margin-bottom: 15px;
-    padding: 10px;
+    padding: 20px;
     border-radius: 5px;
     background: #FBFBFB;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+   
 }
 
 .formulario input {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 100%;
+    width: 320px;
     max-width: 400px;
     height: 60px;
 }
@@ -77,7 +85,7 @@ span {
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
-    max-width: 400px;
+    width: 320px;
     height: 60px;
 }
 
@@ -156,10 +164,13 @@ table th {
 
 td button {
     background-color: red;
+    width: 90px;
+    height: 30px;
+    margin: 5px;
     border: none;
     color: white;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 5px;
     border-radius: 5px;
 }
 
@@ -197,10 +208,10 @@ footer {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #FBFBFB;
+    background: #f0fcff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.434);
     z-index: 1000;
 }
 
@@ -243,7 +254,7 @@ footer {
 }
 
 .formulario-edicao button:last-of-type:hover {
-    background: #a25353;
+    background: #68a253;
 }
 
 /* Estilos para impressão */
