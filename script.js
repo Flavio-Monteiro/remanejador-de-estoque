@@ -1,21 +1,16 @@
-// Aguarda o carregamento completo do DOM antes de executar o código
+// Quando o documento HTML estiver completamente carregado, executa as funções abaixo
 document.addEventListener("DOMContentLoaded", function () {
-    // Carrega os dados salvos no localStorage ao iniciar a página
-    carregarDados();
-
-    // Adiciona um evento de clique ao botão "Adicionar" para adicionar um novo registro
-    document.getElementById("btnAdicionar").addEventListener("click", adicionarRegistro);
-
-    // Adiciona um evento de clique ao botão "Exportar PDF" para gerar o PDF
-    document.getElementById("exportarPDF").addEventListener("click", gerarPDF);
-
-    // Adiciona um evento de clique ao botão "Exportar XLS" para exportar para Excel
-    document.getElementById("exportarXLS").addEventListener("click", exportarXLS);
+    carregarDados(); // Carrega os dados salvos no localStorage
+    document.querySelector(".btnAdcionar").addEventListener("click", adicionarRegistro); // Adiciona evento de clique ao botão "Adicionar"
+    document.getElementById("exportarPDF").addEventListener("click", gerarPDF); // Adiciona evento de clique ao botão "Exportar PDF"
+    document.getElementById("exportarXLS").addEventListener("click", exportarXLS); // Adiciona evento de clique ao botão "Exportar para Excel"
 });
 
-// Função para adicionar um novo registro à tabela
+let linhaEditando = null; // Variável para armazenar a linha que está sendo editada
+
+// Função para adicionar um novo registro na tabela
 function adicionarRegistro() {
-    // Obtém os valores dos campos de entrada
+    // Obtém os valores dos campos do formulário
     const setor = document.getElementById("setor").value;
     const funcionario = document.getElementById("funcionario").value;
     const codOrigem = document.getElementById("codOrigem").value;
@@ -24,23 +19,21 @@ function adicionarRegistro() {
     const codDestino = document.getElementById("codDestino").value;
     const descDestino = document.getElementById("descDestino").value;
     const quantDestino = document.getElementById("quantDestino").value;
+    const data = document.getElementById("data").value;
 
     // Verifica se os campos obrigatórios foram preenchidos
-    if (!setor || !funcionario || !codOrigem || !descOrigem || !quantOrigem) {
+    if (!setor || !funcionario || !codOrigem || !descOrigem || !quantOrigem || !data) {
         alert("Preencha todos os campos obrigatórios!");
-        return; // Interrompe a execução se algum campo obrigatório estiver vazio
+        return; // Se algum campo obrigatório estiver vazio, exibe um alerta e interrompe a função
     }
 
-    // Cria uma nova linha na tabela com os dados fornecidos
-    const novaLinha = criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino, descDestino, quantDestino);
+    // Cria uma nova linha na tabela com os dados do formulário
+    const novaLinha = criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino, descDestino, quantDestino, data);
+    document.querySelector("#tabela tbody").appendChild(novaLinha); // Adiciona a nova linha à tabela
 
-    // Adiciona a nova linha ao corpo da tabela
-    document.querySelector("#tabela tbody").appendChild(novaLinha);
+    salvarDados(); // Salva os dados no localStorage
 
-    // Salva os dados atualizados no localStorage
-    salvarDados();
-
-    // Limpa os campos do formulário após a adição do registro
+    // Limpa os campos do formulário após adicionar o registro
     document.getElementById("setor").value = "";
     document.getElementById("funcionario").value = "";
     document.getElementById("codOrigem").value = "";
@@ -49,15 +42,14 @@ function adicionarRegistro() {
     document.getElementById("codDestino").value = "";
     document.getElementById("descDestino").value = "";
     document.getElementById("quantDestino").value = "";
+    document.getElementById("data").value = "";
 }
 
 // Função para salvar os dados da tabela no localStorage
 function salvarDados() {
-    const dados = [];
-    // Itera sobre cada linha da tabela
+    const dados = []; // Array para armazenar os dados da tabela
     document.querySelectorAll("#tabela tbody tr").forEach(linha => {
-        const celulas = linha.querySelectorAll("td");
-        // Armazena os dados de cada linha em um objeto
+        const celulas = linha.querySelectorAll("td"); // Obtém as células da linha
         dados.push({
             setor: celulas[0].textContent,
             funcionario: celulas[1].textContent,
@@ -66,105 +58,179 @@ function salvarDados() {
             quantOrigem: celulas[4].textContent,
             codDestino: celulas[5].textContent,
             descDestino: celulas[6].textContent,
-            quantDestino: celulas[7].textContent
-        });
+            quantDestino: celulas[7].textContent,
+            data: celulas[8].textContent
+        }); // Adiciona os dados da linha ao array
     });
-    // Salva os dados no localStorage como uma string JSON
-    localStorage.setItem("dadosTabela", JSON.stringify(dados));
+    localStorage.setItem("dadosTabela", JSON.stringify(dados)); // Salva o array no localStorage
 }
 
-// Função para carregar os dados salvos no localStorage
+// Função para carregar os dados do localStorage na tabela
 function carregarDados() {
-    // Obtém os dados do localStorage ou usa um array vazio se não houver dados
-    const dados = JSON.parse(localStorage.getItem("dadosTabela")) || [];
-    const tbody = document.querySelector("#tabela tbody");
-    // Itera sobre os dados e cria uma linha na tabela para cada registro
+    const dados = JSON.parse(localStorage.getItem("dadosTabela")) || []; // Obtém os dados do localStorage ou um array vazio
+    const tbody = document.querySelector("#tabela tbody"); // Obtém o corpo da tabela
     dados.forEach(row => {
-        const novaLinha = criarLinhaTabela(row.setor, row.funcionario, row.codOrigem, row.descOrigem, row.quantOrigem, row.codDestino, row.descDestino, row.quantDestino);
-        tbody.appendChild(novaLinha);
+        // Cria uma nova linha na tabela para cada registro salvo
+        const novaLinha = criarLinhaTabela(row.setor, row.funcionario, row.codOrigem, row.descOrigem, row.quantOrigem, row.codDestino, row.descDestino, row.quantDestino, row.data);
+        tbody.appendChild(novaLinha); // Adiciona a linha à tabela
     });
 }
 
 // Função para criar uma nova linha na tabela
-function criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino, descDestino, quantDestino) {
-    const novaLinha = document.createElement("tr");
-    // Array com os valores das células da linha
-    const celulas = [setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino || "---", descDestino || "--", quantDestino || "---"];
+function criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino, descDestino, quantDestino, data) {
+    const novaLinha = document.createElement("tr"); // Cria uma nova linha (<tr>)
+    const celulas = [setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino || "---", descDestino || "--", quantDestino || "---", data]; // Array com os valores das células
 
-    // Itera sobre os valores e cria as células da linha
+    // Para cada valor, cria uma célula (<td>) e adiciona à linha
     celulas.forEach(texto => {
         const celula = document.createElement("td");
         celula.textContent = texto;
         novaLinha.appendChild(celula);
     });
 
-    // Cria um botão "Remover" para a linha
+    // Cria o botão "Editar" e adiciona um evento de clique
+    const btnEditar = document.createElement("button");
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", function () {
+        editarRegistro(this.closest("tr")); // Chama a função para editar a linha
+    });
+
+    // Cria o botão "Remover" e adiciona um evento de clique
     const btnRemover = document.createElement("button");
     btnRemover.textContent = "Remover";
     btnRemover.addEventListener("click", function () {
-        // Remove a linha ao clicar no botão
-        this.closest("tr").remove();
-        // Atualiza os dados no localStorage após a remoção
-        salvarDados();
+        this.closest("tr").remove(); // Remove a linha da tabela
+        salvarDados(); // Atualiza os dados no localStorage
     });
 
-    // Adiciona o botão "Remover" à última célula da linha
+    // Cria a célula de ação e adiciona os botões "Editar" e "Remover"
     const celulaAcao = document.createElement("td");
+    celulaAcao.appendChild(btnEditar);
     celulaAcao.appendChild(btnRemover);
-    novaLinha.appendChild(celulaAcao);
+    novaLinha.appendChild(celulaAcao); // Adiciona a célula de ação à linha
 
     return novaLinha; // Retorna a linha criada
 }
 
-// Função para exportar a tabela para um arquivo Excel (XLS)
-function exportarXLS() {
-    const tabela = document.getElementById("tabela");
-    // Converte a tabela para uma planilha do Excel
-    const ws = XLSX.utils.table_to_sheet(tabela);
-    const wb = XLSX.utils.book_new();
-    // Adiciona a planilha ao livro de trabalho
-    XLSX.utils.book_append_sheet(wb, ws, "Registros");
-    // Exporta o arquivo Excel com o nome "controle_estoque.xlsx"
-    XLSX.writeFile(wb, "controle_estoque.xlsx");
+// Função para editar um registro
+function editarRegistro(linha) {
+    linhaEditando = linha; // Armazena a linha que está sendo editada
+    const celulas = linha.querySelectorAll("td"); // Obtém as células da linha
+
+    // Preenche o formulário de edição com os valores da linha
+    document.getElementById("editSetor").value = celulas[0].textContent;
+    document.getElementById("editFuncionario").value = celulas[1].textContent;
+    document.getElementById("editCodOrigem").value = celulas[2].textContent;
+    document.getElementById("editDescOrigem").value = celulas[3].textContent;
+    document.getElementById("editQuantOrigem").value = celulas[4].textContent;
+    document.getElementById("editCodDestino").value = celulas[5].textContent;
+    document.getElementById("editDescDestino").value = celulas[6].textContent;
+    document.getElementById("editQuantDestino").value = celulas[7].textContent;
+    document.getElementById("editData").value = celulas[8].textContent;
+
+    document.getElementById("formEdicao").style.display = "block"; // Exibe o formulário de edição
 }
 
-// Função para gerar um PDF a partir da tabela
+// Função para salvar as alterações feitas no formulário de edição
+function salvarEdicao() {
+    const celulas = linhaEditando.querySelectorAll("td"); // Obtém as células da linha que está sendo editada
+
+    // Atualiza os valores da linha com os dados do formulário de edição
+    celulas[0].textContent = document.getElementById("editSetor").value;
+    celulas[1].textContent = document.getElementById("editFuncionario").value;
+    celulas[2].textContent = document.getElementById("editCodOrigem").value;
+    celulas[3].textContent = document.getElementById("editDescOrigem").value;
+    celulas[4].textContent = document.getElementById("editQuantOrigem").value;
+    celulas[5].textContent = document.getElementById("editCodDestino").value;
+    celulas[6].textContent = document.getElementById("editDescDestino").value;
+    celulas[7].textContent = document.getElementById("editQuantDestino").value;
+    celulas[8].textContent = document.getElementById("editData").value;
+
+    salvarDados(); // Salva os dados atualizados no localStorage
+    cancelarEdicao(); // Oculta o formulário de edição
+}
+
+// Função para cancelar a edição e ocultar o formulário de edição
+function cancelarEdicao() {
+    document.getElementById("formEdicao").style.display = "none"; // Oculta o formulário de edição
+    linhaEditando = null; // Limpa a referência da linha que estava sendo editada
+}
+
+// Função para exportar a tabela para um arquivo Excel
+function exportarXLS() {
+    const tabela = document.getElementById("tabela"); // Obtém a tabela
+    const ws = XLSX.utils.table_to_sheet(tabela); // Converte a tabela para uma planilha
+    const wb = XLSX.utils.book_new(); // Cria um novo livro de trabalho
+    XLSX.utils.book_append_sheet(wb, ws, "Registros"); // Adiciona a planilha ao livro
+    XLSX.writeFile(wb, "controle_estoque.xlsx"); // Exporta o arquivo Excel
+}
+
+// Função para gerar um PDF com os dados da tabela
 function gerarPDF() {
-    // Clona a tabela para não modificar a original
-    const tabela = document.getElementById("tabela").cloneNode(true);
+    const doc = new jspdf.jsPDF({
+        orientation: "landscape", // Orientação paisagem
+        unit: "mm",
+        format: "a4",
+    });
 
-    // Remove a coluna de ação (botão "Remover") de cada linha
-    tabela.querySelectorAll("tr").forEach(linha => linha.removeChild(linha.lastElementChild));
-
-    // Cria um container para o conteúdo do PDF
-    const container = document.createElement("div");
-
-    // Adiciona um título ao PDF
-    const cabecalho = document.createElement("h2");
-    cabecalho.textContent = "Relatório de Remanejamento de Estoque de Pães";
-    cabecalho.style.textAlign = "center";
-    cabecalho.style.marginBottom = "20px";
-    container.appendChild(cabecalho);
+    // Adiciona o título ao PDF
+    doc.setFontSize(18);
+    doc.text("Relatório de Remanejamento de Estoque de Pães", 15, 20);
 
     // Adiciona a data atual ao PDF
-    const dataAtual = document.createElement("p");
     const hoje = new Date();
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    dataAtual.textContent = `Data: ${hoje.toLocaleDateString('pt-BR', options)}`;
-    dataAtual.style.textAlign = "right";
-    dataAtual.style.marginBottom = "10px";
-    container.appendChild(dataAtual);
+    const dataAtual = `Data: ${hoje.toLocaleDateString('pt-BR', options)}`;
+    doc.setFontSize(12);
+    doc.text(dataAtual, doc.internal.pageSize.width - 15, 20, { align: "right" });
 
-    // Adiciona a tabela ao container
-    container.appendChild(tabela);
+    // Prepara os dados da tabela para o PDF
+    const headers = [
+        "Setor",
+        "Funcionário",
+        "Código de Retirada",
+        "Produto Retirado",
+        "Quantidade Retirada",
+        "Código de Produção",
+        "Produto de Produção",
+        "Quantidade para Produção",
+        "Data"
+    ];
 
-    // Gera o PDF a partir do container
-    html2pdf()
-        .from(container)
-        .set({
-            margin: 10, // Define as margens do PDF
-            filename: "controle_estoque.pdf", // Nome do arquivo PDF
-            jsPDF: { orientation: "landscape" } // Orientação paisagem
-        })
-        .save(); // Salva o PDF
+    const rows = [];
+    document.querySelectorAll("#tabela tbody tr").forEach(linha => {
+        const celulas = linha.querySelectorAll("td");
+        const rowData = [];
+        celulas.forEach((celula, index) => {
+            if (index < 9) { // Ignora a coluna de ação (índice 9)
+                rowData.push(celula.textContent);
+            }
+        });
+        rows.push(rowData); // Adiciona os dados da linha ao array
+    });
+
+    // Adiciona a tabela ao PDF
+    doc.autoTable({
+        head: [headers], // Cabeçalho da tabela
+        body: rows, // Dados da tabela
+        startY: 30, // Posição inicial da tabela
+        theme: "grid", // Estilo da tabela
+        styles: {
+            fontSize: 8, // Tamanho da fonte
+            cellPadding: 2, // Espaçamento interno das células
+            textColor: [0, 0, 0], // Cor da fonte (preto)
+        },
+        headStyles: {
+            fillColor: [51, 51, 51], // Cor de fundo do cabeçalho (cinza escuro)
+            textColor: [255, 255, 255], // Cor da fonte do cabeçalho (branco)
+            fontSize: 12, // Tamanho da fonte do cabeçalho
+            cellPadding: 2, // Espaçamento interno do cabeçalho
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245], // Cor de fundo das linhas alternadas
+        },
+        margin: { top: 20 }, // Margem superior
+    });
+
+    doc.save("remanejamento_de_estoque_padaria.pdf"); // Salva o PDF
 }
