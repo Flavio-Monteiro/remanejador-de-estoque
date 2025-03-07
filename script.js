@@ -159,7 +159,7 @@ function gerarPDF() {
     });
 
     doc.setFontSize(18);
-    doc.text("Controle de Retiradas de Produtos para Produção da Padaria", 15, 20);
+    doc.text("Relatório de Remanejamento de Estoque de Pães", 15, 20);
 
     const hoje = new Date();
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -214,5 +214,5 @@ function gerarPDF() {
         margin: { top: 20 },
     });
 
-    doc.save("controle_de_retiradas.pdf");
+    doc.save("remanejamento_de_estoque_padaria.pdf");
 }
