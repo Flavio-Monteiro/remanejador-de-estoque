@@ -10,16 +10,15 @@ body {
     background-image: url(bgimg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    
     text-align: center;
     min-height: 100vh;
-    /* Garante que o body ocupe pelo menos a altura da tela */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0;
 }
+
 section {
     padding: 10px;
     width: 100%;
@@ -28,6 +27,7 @@ section {
     align-items: center;
     background-image: linear-gradient(to left, #000000d0, rgba(0, 0, 0, 0.179));
 }
+
 .container {
     background: #F5F7F8;
     padding: 20px;
@@ -37,17 +37,14 @@ section {
     border-radius: 8px;
     box-shadow: 1px 2px 10px 3px rgba(0, 0, 0, 0.659);
     min-height: 90vh;
-    /* Ocupa 90% da altura da tela */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* align-items: center; */
-    /* Distribui o espaÃ§o entre os elementos */
+}
 
-    & h1 {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
+.container h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
 }
 
 span {
@@ -62,22 +59,27 @@ span {
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 5px;
-    /* border: 1px solid #e0e0e0c4; */
     background: #FBFBFB;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-
-    & input {
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        width: 100%;
-        /* Ocupa 100% da largura em dispositivos mÃ³veis */
-        max-width: 400px;
-        /* Limita a largura mÃ¡xima */
-        height: 60px;
-    }
 }
 
+.formulario input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+}
+
+.formulario input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+}
 
 .btnAdcionar,
 #exportarPDF,
@@ -85,10 +87,7 @@ span {
     margin: 5px;
     height: 50px;
     width: 100%;
-    /* Ocupa 100% da largura em dispositivos mÃ³veis */
     max-width: 250px;
-    /* Limita a largura mÃ¡xima */
-
 }
 
 #exportarXLS {
@@ -96,11 +95,11 @@ span {
     border: none;
     border-radius: 5px;
     color: #f4f4f4;
+}
 
-    &:hover {
-        background: #10915d;
-        cursor: pointer;
-    }
+#exportarXLS:hover {
+    background: #10915d;
+    cursor: pointer;
 }
 
 .btnAdcionar {
@@ -109,19 +108,14 @@ span {
     border-radius: 5px;
     background: #41B3A2;
     box-shadow: 2px 2px 3px rgba(104, 104, 104, 0.521);
-   
-
-    &:hover {
-        background: #358b7f;
-        cursor: pointer;
-        transform: translate(2px,4px);
-        box-shadow: none;
-        
-
-    }
 }
 
-
+.btnAdcionar:hover {
+    background: #358b7f;
+    cursor: pointer;
+    transform: translate(2px, 4px);
+    box-shadow: none;
+}
 
 #exportarPDF {
     background: #C96868;
@@ -130,17 +124,15 @@ span {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-
-    &:hover {
-        background-color: #a25353;
-    }
 }
 
+#exportarPDF:hover {
+    background-color: #a25353;
+}
 
 #tabelaContainer {
     overflow-x: auto;
     flex-grow: 1;
-    /* Faz a tabela ocupar o espaÃ§o restante */
     margin-bottom: 15px;
 }
 
@@ -148,21 +140,19 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-
-    & th,
-    td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: center;
-    }
-
-    & th {
-        background-color: #007BFF;
-        color: white;
-    }
 }
 
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
 
+table th {
+    background-color: #dbdbdb;
+    color: rgb(27, 27, 27);
+}
 
 td button {
     background-color: red;
@@ -171,96 +161,19 @@ td button {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 5px;
-
-    &:hover {
-        background-color: darkred;
-    }
 }
 
-/* Ajuste para impressÃ£o */
-@media print {
-    body {
-        background: white;
-    }
-
-    .formulario,
-    #exportarPDF {
-        display: none;
-    }
-
-    table {
-        font-size: 12px;
-    }
+td button:hover {
+    background-color: darkred;
 }
 
-/* Responsividade para dispositivos mÃ³veis */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 18px;
-        /* Reduz o tamanho do tÃ­tulo */
-    }
-
-    .formulario input {
-        height: 50px;
-        /* Reduz a altura dos inputs */
-    }
-
-    .btnAdcionar,
-    #exportarPDF {
-        height: 45px;
-        /* Reduz a altura dos botÃµes */
-    }
-
-    table {
-        font-size: 14px;
-        /* Reduz o tamanho da fonte da tabela */
-    }
-
-    th,
-    td {
-        padding: 6px;
-        /* Reduz o padding das cÃ©lulas */
-    }
-    .btnAdcionar,
-    #exportarPDF,
-    #exportarXLS {
-        height: 50px;
-        /* Reduz a altura dos botÃµes */
-        width: 100%;
-
-    }
+td button.editar {
+    background-color: #41B3A2;
+    margin-right: 5px;
 }
 
-@media (max-width: 480px) {
-    h1 {
-        font-size: 16px;
-        /* Reduz ainda mais o tamanho do tÃ­tulo */
-    }
-
-    .formulario input {
-        height: 45px;
-        /* Reduz a altura dos inputs */
-    }
-
-    .btnAdcionar,
-    #exportarPDF,
-    #exportarXLS {
-        height: 50px;
-        /* Reduz a altura dos botÃµes */
-        width: 100%;
-
-    }
-
-    table {
-        font-size: 12px;
-        /* Reduz o tamanho da fonte da tabela */
-    }
-
-    th,
-    td {
-        padding: 4px;
-        /* Reduz o padding das cÃ©lulas */
-    }
+td button.editar:hover {
+    background-color: #358b7f;
 }
 
 footer {
@@ -275,4 +188,129 @@ footer {
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+}
+
+/* Estilos para o formulário de edição */
+.formulario-edicao {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #FBFBFB;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.formulario-edicao h2 {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.formulario-edicao input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.formulario-edicao button {
+    margin: 5px;
+    height: 50px;
+    width: 100%;
+    max-width: 250px;
+    border: none;
+    border-radius: 5px;
+    color: #f4f4f4;
+    cursor: pointer;
+}
+
+.formulario-edicao button:first-of-type {
+    background: #41B3A2;
+}
+
+.formulario-edicao button:first-of-type:hover {
+    background: #358b7f;
+}
+
+.formulario-edicao button:last-of-type {
+    background: #C96868;
+}
+
+.formulario-edicao button:last-of-type:hover {
+    background: #a25353;
+}
+
+/* Estilos para impressão */
+@media print {
+    body {
+        background: white;
+    }
+
+    .formulario,
+    #exportarPDF,
+    .formulario-edicao {
+        display: none;
+    }
+
+    table {
+        font-size: 12px;
+    }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 18px;
+    }
+
+    .formulario input {
+        height: 50px;
+    }
+
+    .btnAdcionar,
+    #exportarPDF,
+    #exportarXLS {
+        height: 45px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th,
+    td {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 16px;
+    }
+
+    .formulario input {
+        height: 45px;
+    }
+
+    .btnAdcionar,
+    #exportarPDF,
+    #exportarXLS {
+        height: 50px;
+        width: 100%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th,
+    td {
+        padding: 4px;
+    }
 }
