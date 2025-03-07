@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solicitação de Remanejamento</title>
     <link rel="stylesheet" href="styles.css" />
+    <!-- Inclua a biblioteca SheetJS para exportar Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <section>
@@ -20,6 +22,7 @@
                 <input type="text" id="descDestino" placeholder=" Produto de Produção" />
                 <input type="number" id="quantDestino" placeholder=" Quantidade para Produção" />
                 <input type="date" id="data" placeholder="Data" />
+                <input type="text" id="observacao" placeholder="Observação" /> <!-- Novo campo de Observação -->
             </div>
             <span>* dados obrigatórios</span>
             <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
@@ -36,6 +39,7 @@
                             <th>Produto de Produção</th>
                             <th>Quantidade para Produção</th>
                             <th>Data</th>
+                            <th>Observação</th> <!-- Nova coluna de Observação -->
                             <th>Ação</th>
                         </tr>
                     </thead>
@@ -60,10 +64,12 @@
         <input type="text" id="editDescDestino" placeholder=" Produto de Produção" />
         <input type="number" id="editQuantDestino" placeholder=" Quantidade para Produção" />
         <input type="date" id="editData" placeholder="Data" />
+        <input type="text" id="editObservacao" placeholder="Observação" /> <!-- Novo campo de Observação no formulário de edição -->
         <button onclick="salvarEdicao()">Salvar</button>
         <button onclick="cancelarEdicao()">Cancelar</button>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="script.js"></script>
