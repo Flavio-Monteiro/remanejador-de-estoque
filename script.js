@@ -51,8 +51,13 @@ const produtos = {
     },
     "965491": {
         descricao: "Coco seco",
-        codigoDestino: "290750",
-        descricaoDestino: "banana produção"
+        codigoDestino: "965491",
+        descricaoDestino: "Coco seco produção"
+    },
+    "246810":{
+        descricao: "Prod Novo",
+        codigoDestino: "123456",
+        descricaoDestino: "Prod. novo produ"
     }
 };
 
