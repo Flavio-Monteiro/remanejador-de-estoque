@@ -254,15 +254,22 @@ function gerarPDF() {
         format: "a4",
     });
 
-    doc.setFontSize(18);
-    doc.text("Relatório de Remanejamento de Estoque de Pães", 15, 20);
+    // Adicionar a logo
+    const logo = "logoPontoCerto.jpg"; // Caminho da logo
+    doc.addImage(logo, "PNG", 15, 10, 30, 15); // Ajuste a posição e o tamanho da logo
 
+    // Título do relatório
+    doc.setFontSize(18);
+    doc.text("Solicitação de Remanejamento de Estoque", 50, 20); // Ajuste a posição do título
+
+    // Data atual
     const hoje = new Date();
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const dataAtual = `Data: ${hoje.toLocaleDateString('pt-BR', options)}`;
     doc.setFontSize(12);
     doc.text(dataAtual, doc.internal.pageSize.width - 15, 20, { align: "right" });
 
+    // Cabeçalhos da tabela
     const headers = [
         "Setor",
         "Funcionário",
@@ -275,6 +282,7 @@ function gerarPDF() {
         "Observação"
     ];
 
+    // Dados da tabela
     const rows = [];
     document.querySelectorAll("#tabela tbody tr").forEach(linha => {
         const celulas = linha.querySelectorAll("td");
@@ -287,10 +295,11 @@ function gerarPDF() {
         rows.push(rowData);
     });
 
+    // Criar a tabela
     doc.autoTable({
         head: [headers],
         body: rows,
-        startY: 30,
+        startY: 30, // Ajuste a posição Y da tabela
         theme: "grid",
         styles: {
             fontSize: 8,
@@ -309,5 +318,6 @@ function gerarPDF() {
         margin: { top: 20 },
     });
 
-    doc.save("remanejamento_de_estoque_padaria.pdf");
+    // Salvar o PDF
+    doc.save("solicitacao_remanejamento_estoque.pdf");
 }
