@@ -241,8 +241,8 @@ function gerarPDF() {
 
     // 1. ADICIONAR LOGO (AJUSTE O CAMINHO DA IMAGEM)
     const logo = "logoPontoCerto.jpg"; // Caminho correto da imagem
-    const imgWidth = 30;
-    const imgHeight = 15;
+    const imgWidth = 40;
+    const imgHeight =18;
     const posX = 15;
     const posY = 10;
     
