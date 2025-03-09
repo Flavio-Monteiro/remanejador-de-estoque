@@ -1,5 +1,5 @@
-// Banco de dados de produtos
-const produtos = {
+  // Banco de dados de produtos
+  const produtos = {
     "7897261800011": { descricao: "Açúcar Caeté",     codigoDestino: "217018", descricaoDestino: "Açúcar produção" },
     "7896110100012": { descricao: "Sal 1",            codigoDestino: "217000", descricaoDestino: "Sal produção" },
     "290815":        { descricao: "Óleo",             codigoDestino: "290815", descricaoDestino: "Óleo produção" },
@@ -233,21 +233,79 @@ function exportarXLS() {
 }
 
 function gerarPDF() {
-    const doc = new jspdf.jsPDF({ orientation: "landscape" });
-    
-    // Cabeçalho
-    doc.setFontSize(18);
-    doc.text("Solicitação de Remanejamento de Estoque", 15, 15);
-    doc.setFontSize(12);
-    doc.text(`Data: ${new Date().toLocaleDateString("pt-BR")}`, 260, 15, { align: "right" });
-
-    // Tabela
-    doc.autoTable({
-        html: "#tabela",
-        startY: 25,
-        styles: { fontSize: 8 },
-        headStyles: { fillColor: [51, 51, 51], textColor: 255 }
+    const doc = new jspdf.jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
     });
 
-    doc.save("solicitacao_remanejamento.pdf");
+    // 1. ADICIONAR LOGO (AJUSTE O CAMINHO DA IMAGEM)
+    const logo = "logoPontoCerto.jpg"; // Caminho correto da imagem
+    const imgWidth = 30;
+    const imgHeight = 15;
+    const posX = 15;
+    const posY = 10;
+    
+    // Adiciona a imagem apenas se existir
+    try {
+        doc.addImage(logo, "PNG", posX, posY, imgWidth, imgHeight);
+    } catch (error) {
+        console.warn("Erro ao carregar logo:", error);
+    }
+
+    // 2. CABEÇALHO DO RELATÓRIO
+    doc.setFontSize(18);
+    doc.setTextColor(40);
+    doc.setFont("helvetica", "bold");
+    doc.text("Solicitação de Remanejamento de Estoque", posX + imgWidth + 15, posY + 15);
+
+    // 3. DATA DE EMISSÃO
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    const dataEmissao = new Date().toLocaleDateString("pt-BR");
+    doc.text(`Data de Emissão: ${dataEmissao}`, doc.internal.pageSize.width - 15, posY + 15, {
+        align: "right"
+    });
+
+    // 4. CONFIGURAÇÃO DA TABELA
+    const headers = [
+        ["Setor", "Funcionário", "Cód. Retirada", "Produto Retirado", 
+         "Quantidade", "Cód. Produção", "Prod. Produção", "Data", "Observação"]
+    ];
+
+    const rows = [];
+    document.querySelectorAll("#tabela tbody tr").forEach(linha => {
+        const rowData = [];
+        linha.querySelectorAll("td").forEach((celula, index) => {
+            if (index < 9) rowData.push(celula.textContent);
+        });
+        rows.push(rowData);
+    });
+
+    // 5. GERAR TABELA
+    doc.autoTable({
+        head: headers,
+        body: rows,
+        startY: posY + imgHeight + 10, // Posiciona após o cabeçalho
+        theme: "grid",
+        styles: {
+            fontSize: 8,
+            cellPadding: 2,
+            textColor: [40, 40, 40],
+            font: "helvetica"
+        },
+        headStyles: {
+            fillColor: [51, 51, 51],
+            textColor: [255, 255, 255],
+            fontSize: 10,
+            fontStyle: "bold"
+        },
+        margin: { 
+            top: posY + imgHeight + 10,
+            left: posX
+        }
+    });
+
+    // 6. SALVAR PDF
+    doc.save("solicitacao_remanejamento_estoque.pdf");
 }
