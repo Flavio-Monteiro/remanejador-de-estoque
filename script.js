@@ -1,214 +1,115 @@
-const produtos = {
-    "7897261800011": {
-        descricao: "Açúcar Caeté",
-        codigoDestino: "217018",
-        descricaoDestino: "açúcar produção"
-    },
-    "7896110100012": {
-        descricao: "Sal 1",
-        codigoDestino: "217000",
-        descricaoDestino: "sal produção"
-    },
-    "290815": {
-        descricao: "óleo",
-        codigoDestino: "290815",
-        descricaoDestino: "óleo produção"
-    },
-    "290858": {
-        descricao: "Leite em pó",
-        codigoDestino: "290858",
-        descricaoDestino: "leite em pó prod."
-    },
-    "290866": {
-        descricao: "Leite líquido",
-        codigoDestino: "290866",
-        descricaoDestino: "leite líquido prod."
-    },
-    "290793": {
-        descricao: "Creme de leite",
-        codigoDestino: "290793",
-        descricaoDestino: "creme de leite prod."
-    },
-    "7896215300980": {
-        descricao: "Leite de coco 01",
-        codigoDestino: "264580",
-        descricaoDestino: "leite de coco prod."
-    },
-    "7896215300065": {
-        descricao: "Leite de coco 02",
-        codigoDestino: "264580",
-        descricaoDestino: "leite de coco prod."
-    },
-    "7896012701218": {
-        descricao: "Gelo",
-        codigoDestino: "292524",
-        descricaoDestino: "gelo produção"
-    },
-    "0751320014788": {
-        descricao: "Ovos galinha",
-        codigoDestino: "290840",
-        descricaoDestino: "ovos galinha produção"
-    },
-    "965491": {
-        descricao: "Coco seco",
-        codigoDestino: "965491",
-        descricaoDestino: "Coco seco produção"
-    },
-    "246810":{
-        descricao: "Prod Novo",
-        codigoDestino: "123456",
-        descricaoDestino: "Prod. novo produ"
-    }
+  // Banco de dados de produtos
+  const produtos = {
+    "7897261800011": { descricao: "Açúcar Caeté",     codigoDestino: "217018", descricaoDestino: "Açúcar produção" },
+    "7896110100012": { descricao: "Sal 1",            codigoDestino: "217000", descricaoDestino: "Sal produção" },
+    "290815":        { descricao: "Óleo",             codigoDestino: "290815", descricaoDestino: "Óleo produção" },
+    "290858":        { descricao: "Leite em pó",      codigoDestino: "290858", descricaoDestino: "Leite em pó prod." },
+    "290866":        { descricao: "Leite líquido",    codigoDestino: "290866", descricaoDestino: "Leite líquido prod." },
+    "290793":        { descricao: "Creme de leite",   codigoDestino: "290793", descricaoDestino: "Creme de leite prod." },
+    "7896215300980": { descricao: "Leite de coco 01", codigoDestino: "264580", descricaoDestino: "Leite de coco prod." },
+    "7896215300065": { descricao: "Leite de coco 02", codigoDestino: "264580", descricaoDestino: "Leite de coco prod." },
+    "7896012701218": { descricao: "Gelo",             codigoDestino: "292524", descricaoDestino: "Gelo produção" },
+    "0751320014788": { descricao: "Ovos galinha",     codigoDestino: "290840", descricaoDestino: "Ovos galinha produção" },
+    "965491":        { descricao: "Coco seco",        codigoDestino: "965491", descricaoDestino: "Coco seco produção" },
+    "246810":        { descricao: "Prod Novo",        codigoDestino: "123456", descricaoDestino: "Prod. novo produ" },
+    "00000":         { descricao: "TESTE",            codigoDestino: "100000", descricaoDestino: "TESTE PRODUÇÃO" }
 };
 
-document.addEventListener("DOMContentLoaded", function () {
+// Variáveis globais
+let linhaEditando = null;
+
+// Inicialização
+document.addEventListener("DOMContentLoaded", () => {
+    popularDatalist();
+    configurarEventos();
     carregarDados();
+});
+
+function popularDatalist() {
+    const datalist = document.getElementById("produtosList");
+    datalist.innerHTML = Object.entries(produtos)
+        .map(([codigo, produto]) => `<option value="${codigo} - ${produto.descricao}"></option>`)
+        .join("");
+}
+
+function configurarEventos() {
+    // Eventos do formulário principal
     document.querySelector(".btnAdcionar").addEventListener("click", adicionarRegistro);
     document.getElementById("exportarPDF").addEventListener("click", gerarPDF);
     document.getElementById("exportarXLS").addEventListener("click", exportarXLS);
 
-    // Evento para preencher automaticamente os campos ao digitar o código de origem
-    document.getElementById("codOrigem").addEventListener("input", function () {
-        const codigo = this.value;
+    // Autocompletar por código
+    document.getElementById("codOrigem").addEventListener("input", function() {
+        const produto = produtos[this.value.trim()];
+        if(produto) preencherCampos(produto, this.value);
+    });
+
+    // Autocompletar por seleção
+    document.getElementById("descOrigem").addEventListener("change", function() {
+        const [codigo] = this.value.split(" - ");
         const produto = produtos[codigo];
-
-        if (produto) {
-            document.getElementById("descOrigem").value = produto.descricao;
-            document.getElementById("codDestino").value = produto.codigoDestino;
-            document.getElementById("descDestino").value = produto.descricaoDestino;
-        } else {
-            if (this.value === "") {
-                document.getElementById("descOrigem").value = "";
-                document.getElementById("codDestino").value = "";
-                document.getElementById("descDestino").value = "";
-            }
+        if(produto) {
+            this.value = produto.descricao;
+            preencherCampos(produto, codigo);
         }
     });
 
-    // Evento para preencher automaticamente o "Código de Origem" ao selecionar o produto retirado
-    document.getElementById("descOrigem").addEventListener("input", function () {
-        const descricaoCompleta = this.value;
-        const nomeProduto = descricaoCompleta.split(" - ")[1];
+    // Eventos do formulário de edição
+    document.getElementById("editCodOrigem").addEventListener("input", function() {
+        const produto = produtos[this.value.trim()];
+        if(produto) preencherCamposEdicao(produto, this.value);
+    });
 
-        if (nomeProduto) {
-            const codigo = Object.keys(produtos).find(key => produtos[key].descricao === nomeProduto);
-            const produto = produtos[codigo];
-
-            if (produto) {
-                document.getElementById("codOrigem").value = codigo;
-                document.getElementById("descOrigem").value = nomeProduto;
-                document.getElementById("codDestino").value = produto.codigoDestino;
-                document.getElementById("descDestino").value = produto.descricaoDestino;
-            }
-        } else {
-            if (this.value === "") {
-                document.getElementById("codOrigem").value = "";
-                document.getElementById("descOrigem").value = "";
-                document.getElementById("codDestino").value = "";
-                document.getElementById("descDestino").value = "";
-            }
+    document.getElementById("editDescOrigem").addEventListener("change", function() {
+        const [codigo] = this.value.split(" - ");
+        const produto = produtos[codigo];
+        if(produto) {
+            this.value = produto.descricao;
+            preencherCamposEdicao(produto, codigo);
         }
     });
-});
 
-let linhaEditando = null;
+    // Eventos da tabela
+    document.querySelector("#tabela tbody").addEventListener("click", e => {
+        if(e.target.classList.contains("editar")) editarRegistro(e.target.closest("tr"));
+        if(e.target.classList.contains("remover")) removerRegistro(e.target.closest("tr"));
+    });
 
+    // Eventos do modal de edição
+    document.querySelector("#formEdicao .salvar").addEventListener("click", salvarEdicao);
+    document.querySelector("#formEdicao .cancelar").addEventListener("click", cancelarEdicao);
+}
+
+// Funções de autocompletar
+function preencherCampos(produto, codigo) {
+    document.getElementById("codOrigem").value = codigo;
+    document.getElementById("descOrigem").value = produto.descricao;
+    document.getElementById("codDestino").value = produto.codigoDestino;
+    document.getElementById("descDestino").value = produto.descricaoDestino;
+}
+
+function preencherCamposEdicao(produto, codigo) {
+    document.getElementById("editCodOrigem").value = codigo;
+    document.getElementById("editDescOrigem").value = produto.descricao;
+    document.getElementById("editCodDestino").value = produto.codigoDestino;
+    document.getElementById("editDescDestino").value = produto.descricaoDestino;
+}
+
+// Funções CRUD
 function adicionarRegistro() {
-    const setor = document.getElementById("setor").value;
-    const funcionario = document.getElementById("funcionario").value;
-    const codOrigem = document.getElementById("codOrigem").value;
-    const descOrigem = document.getElementById("descOrigem").value;
-    const quantOrigem = document.getElementById("quantOrigem").value;
-    const codDestino = document.getElementById("codDestino").value;
-    const descDestino = document.getElementById("descDestino").value;
-    const data = document.getElementById("data").value;
-    const observacao = document.getElementById("observacao").value;
+    const campos = obterCamposFormulario();
+    if(!validarCampos(campos)) return alert("Preencha todos os campos obrigatórios!");
 
-    if (!setor || !funcionario || !codOrigem || !descOrigem || !quantOrigem || !data) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
-    }
-
-    const novaLinha = criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino, descDestino, data, observacao);
+    const novaLinha = criarLinhaTabela(campos);
     document.querySelector("#tabela tbody").appendChild(novaLinha);
-
+    limparFormulario();
     salvarDados();
-
-    // Limpa os campos do formulário
-    document.getElementById("setor").value = "";
-    document.getElementById("funcionario").value = "";
-    document.getElementById("codOrigem").value = "";
-    document.getElementById("descOrigem").value = "";
-    document.getElementById("quantOrigem").value = "";
-    document.getElementById("codDestino").value = "";
-    document.getElementById("descDestino").value = "";
-    document.getElementById("data").value = "";
-    document.getElementById("observacao").value = "";
-}
-
-function salvarDados() {
-    const dados = [];
-    document.querySelectorAll("#tabela tbody tr").forEach(linha => {
-        const celulas = linha.querySelectorAll("td");
-        dados.push({
-            setor: celulas[0].textContent,
-            funcionario: celulas[1].textContent,
-            codOrigem: celulas[2].textContent,
-            descOrigem: celulas[3].textContent,
-            quantOrigem: celulas[4].textContent,
-            codDestino: celulas[5].textContent,
-            descDestino: celulas[6].textContent,
-            data: celulas[7].textContent,
-            observacao: celulas[8].textContent
-        });
-    });
-    localStorage.setItem("dadosTabela", JSON.stringify(dados));
-}
-
-function carregarDados() {
-    const dados = JSON.parse(localStorage.getItem("dadosTabela")) || [];
-    const tbody = document.querySelector("#tabela tbody");
-    dados.forEach(row => {
-        const novaLinha = criarLinhaTabela(row.setor, row.funcionario, row.codOrigem, row.descOrigem, row.quantOrigem, row.codDestino, row.descDestino, row.data, row.observacao);
-        tbody.appendChild(novaLinha);
-    });
-}
-
-function criarLinhaTabela(setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino, descDestino, data, observacao) {
-    const novaLinha = document.createElement("tr");
-    const celulas = [setor, funcionario, codOrigem, descOrigem, quantOrigem, codDestino || "---", descDestino || "--", data, observacao || "---"];
-
-    celulas.forEach(texto => {
-        const celula = document.createElement("td");
-        celula.textContent = texto;
-        novaLinha.appendChild(celula);
-    });
-
-    const btnEditar = document.createElement("button");
-    btnEditar.textContent = "Editar";
-    btnEditar.addEventListener("click", function () {
-        editarRegistro(this.closest("tr"));
-    });
-
-    const btnRemover = document.createElement("button");
-    btnRemover.textContent = "Remover";
-    btnRemover.addEventListener("click", function () {
-        this.closest("tr").remove();
-        salvarDados();
-    });
-
-    const celulaAcao = document.createElement("td");
-    celulaAcao.appendChild(btnEditar);
-    celulaAcao.appendChild(btnRemover);
-    novaLinha.appendChild(celulaAcao);
-
-    return novaLinha;
 }
 
 function editarRegistro(linha) {
     linhaEditando = linha;
     const celulas = linha.querySelectorAll("td");
-
+    
     document.getElementById("editSetor").value = celulas[0].textContent;
     document.getElementById("editFuncionario").value = celulas[1].textContent;
     document.getElementById("editCodOrigem").value = celulas[2].textContent;
@@ -224,7 +125,7 @@ function editarRegistro(linha) {
 
 function salvarEdicao() {
     const celulas = linhaEditando.querySelectorAll("td");
-
+    
     celulas[0].textContent = document.getElementById("editSetor").value;
     celulas[1].textContent = document.getElementById("editFuncionario").value;
     celulas[2].textContent = document.getElementById("editCodOrigem").value;
@@ -239,11 +140,90 @@ function salvarEdicao() {
     cancelarEdicao();
 }
 
+function removerRegistro(linha) {
+    linha.remove();
+    salvarDados();
+}
+
+// Funções auxiliares
+function obterCamposFormulario() {
+    return {
+        setor: document.getElementById("setor").value.trim(),
+        funcionario: document.getElementById("funcionario").value.trim(),
+        codOrigem: document.getElementById("codOrigem").value.trim(),
+        descOrigem: document.getElementById("descOrigem").value.trim(),
+        quantOrigem: document.getElementById("quantOrigem").value.trim(),
+        codDestino: document.getElementById("codDestino").value.trim(),
+        descDestino: document.getElementById("descDestino").value.trim(),
+        data: document.getElementById("data").value,
+        observacao: document.getElementById("observacao").value.trim()
+    };
+}
+
+function validarCampos(campos) {
+    return campos.setor && campos.funcionario && campos.codOrigem && 
+           campos.descOrigem && campos.quantOrigem && campos.data;
+}
+
+function criarLinhaTabela(dados) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${dados.setor}</td>
+        <td>${dados.funcionario}</td>
+        <td>${dados.codOrigem}</td>
+        <td>${dados.descOrigem}</td>
+        <td>${dados.quantOrigem}</td>
+        <td>${dados.codDestino || "--"}</td>
+        <td>${dados.descDestino || "--"}</td>
+        <td>${dados.data}</td>
+        <td>${dados.observacao || "--"}</td>
+        <td>
+            <button class="editar">Editar</button>
+            <button class="remover">Remover</button>
+        </td>
+    `;
+    return tr;
+}
+
+// Persistência de dados
+function salvarDados() {
+    const dados = Array.from(document.querySelectorAll("#tabela tbody tr")).map(linha => {
+        const celulas = linha.querySelectorAll("td");
+        return {
+            setor: celulas[0].textContent,
+            funcionario: celulas[1].textContent,
+            codOrigem: celulas[2].textContent,
+            descOrigem: celulas[3].textContent,
+            quantOrigem: celulas[4].textContent,
+            codDestino: celulas[5].textContent,
+            descDestino: celulas[6].textContent,
+            data: celulas[7].textContent,
+            observacao: celulas[8].textContent
+        };
+    });
+    localStorage.setItem("dadosTabela", JSON.stringify(dados));
+}
+
+function carregarDados() {
+    const dados = JSON.parse(localStorage.getItem("dadosTabela")) || [];
+    dados.forEach(dado => {
+        const novaLinha = criarLinhaTabela(dado);
+        document.querySelector("#tabela tbody").appendChild(novaLinha);
+    });
+}
+
+function limparFormulario() {
+    document.querySelectorAll(".formulario input").forEach(input => {
+        if(!input.readOnly && input.type !== "button") input.value = "";
+    });
+}
+
 function cancelarEdicao() {
     document.getElementById("formEdicao").style.display = "none";
     linhaEditando = null;
 }
 
+// Exportação de dados
 function exportarXLS() {
     const tabela = document.getElementById("tabela");
     const ws = XLSX.utils.table_to_sheet(tabela);
@@ -253,76 +233,21 @@ function exportarXLS() {
 }
 
 function gerarPDF() {
-    const doc = new jspdf.jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4",
-    });
-
-    // Adicionar a logo
-    const logo = "logoPontoCerto.jpg"; // Caminho da logo
-    doc.addImage(logo, "PNG", 15, 10, 30, 15); // Ajuste a posição e o tamanho da logo
-
-    // Título do relatório
+    const doc = new jspdf.jsPDF({ orientation: "landscape" });
+    
+    // Cabeçalho
     doc.setFontSize(18);
-    doc.text("Solicitação de Remanejamento de Estoque", 50, 20); // Ajuste a posição do título
-
-    // Data atual
-    const hoje = new Date();
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    const dataAtual = `Data: ${hoje.toLocaleDateString('pt-BR', options)}`;
+    doc.text("Solicitação de Remanejamento de Estoque", 15, 15);
     doc.setFontSize(12);
-    doc.text(dataAtual, doc.internal.pageSize.width - 15, 20, { align: "right" });
+    doc.text(`Data: ${new Date().toLocaleDateString("pt-BR")}`, 260, 15, { align: "right" });
 
-    // Cabeçalhos da tabela
-    const headers = [
-        "Setor",
-        "Funcionário",
-        "Código de Retirada",
-        "Produto Retirado",
-        "Quantidade Retirada",
-        "Código de Produção",
-        "Produto de Produção",
-        "Data",
-        "Observação"
-    ];
-
-    // Dados da tabela
-    const rows = [];
-    document.querySelectorAll("#tabela tbody tr").forEach(linha => {
-        const celulas = linha.querySelectorAll("td");
-        const rowData = [];
-        celulas.forEach((celula, index) => {
-            if (index < 9) {
-                rowData.push(celula.textContent);
-            }
-        });
-        rows.push(rowData);
-    });
-
-    // Criar a tabela
+    // Tabela
     doc.autoTable({
-        head: [headers],
-        body: rows,
-        startY: 30, // Ajuste a posição Y da tabela
-        theme: "grid",
-        styles: {
-            fontSize: 8,
-            cellPadding: 2,
-            textColor: [0, 0, 0],
-        },
-        headStyles: {
-            fillColor: [51, 51, 51],
-            textColor: [255, 255, 255],
-            fontSize: 12,
-            cellPadding: 2,
-        },
-        alternateRowStyles: {
-            fillColor: [245, 245, 245],
-        },
-        margin: { top: 20 },
+        html: "#tabela",
+        startY: 25,
+        styles: { fontSize: 8 },
+        headStyles: { fillColor: [51, 51, 51], textColor: 255 }
     });
 
-    // Salvar o PDF
-    doc.save("solicitacao_remanejamento_estoque.pdf");
+    doc.save("solicitacao_remanejamento.pdf");
 }
