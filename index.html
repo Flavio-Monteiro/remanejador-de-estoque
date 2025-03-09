@@ -65,20 +65,20 @@
         <option value="0751320014788 - Ovos galinha"></option>
         <option value="965491 - Coco seco"></option>
         <option value="246810 - produto novo"></option>
+        <option value="00000 - TESTE PRODUÇÃO"></option>
     </datalist>
 
-    <!-- Formulário de edição -->
     <div id="formEdicao" class="formulario-edicao">
         <h2>Editar Registro</h2>
-        <input type="text" id="editSetor" placeholder="* Setor" />
-        <input type="text" id="editFuncionario" placeholder="* Nome do Funcionário" />
-        <input type="text" id="editCodOrigem" placeholder="* Cód. Origem" />
-        <input type="text" id="editDescOrigem" placeholder="* Produto Retirado" />
-        <input type="number" id="editQuantOrigem" placeholder="* Quantidade Retirada" />
-        <input type="text" id="editCodDestino" placeholder="Código de Produção" />
-        <input type="text" id="editDescDestino" placeholder=" Produto de Produção" />
-        <input type="date" id="editData" placeholder="Data" />
-        <input type="text" id="editObservacao" placeholder="Observação" />
+        <input type="text" id="editSetor" placeholder="* Setor">
+        <input type="text" id="editFuncionario" placeholder="* Nome do Funcionário">
+        <input type="text" id="editCodOrigem" placeholder="* Cód. Origem">
+        <input type="text" id="editDescOrigem" placeholder="* Produto Retirado" list="produtosList">
+        <input type="number" id="editQuantOrigem" placeholder="* Quantidade Retirada">
+        <input type="text" id="editCodDestino" placeholder="Código de Produção">
+        <input type="text" id="editDescDestino" placeholder="Produto de Produção">
+        <input type="date" id="editData" placeholder="Data">
+        <input type="text" id="editObservacao" placeholder="Observação">
         <button class="salvar" onclick="salvarEdicao()">Salvar</button>
         <button class="cancelar" onclick="cancelarEdicao()">Cancelar</button>
     </div>
