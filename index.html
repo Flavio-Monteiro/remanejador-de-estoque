@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Solicitação de Remanejamento</title>
+    <title>Solicitação de Remanejamento de Estoque</title>
     <link rel="stylesheet" href="styles.css" />
-    <!-- Inclua a biblioteca SheetJS para exportar Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
     <section>
         <div class="container">
-            <h1>SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE DE PÃES</h1>
+            <h1>SOLICITAÇÃO DE REMANEJAMENTO DE ESTOQUE</h1>
             <div class="formulario">
                 <input type="text" id="setor" placeholder="* Setor" />
                 <input type="text" id="funcionario" placeholder="* Nome do Funcionário" />
-                <input type="text" id="codOrigem" placeholder="* Cód. Origem" />
-                <input type="text" id="descOrigem" placeholder="* Produto Retirado" />
+                <input type="text" id="codOrigem" placeholder="* Cód. Origem (Código de Barras)" />
+                <input type="text" id="descOrigem" placeholder="* Produto Retirado" list="produtosList" />
                 <input type="number" id="quantOrigem" placeholder="* Quantidade Retirada" />
                 <input type="text" id="codDestino" placeholder="Código de Produção" />
-                <input type="text" id="descDestino" placeholder=" Produto de Produção" />
-                <input type="number" id="quantDestino" placeholder=" Quantidade para Produção" />
+                <input type="text" id="descDestino" placeholder=" Produto de Produção" readonly />
                 <input type="date" id="data" placeholder="Data" />
-                <input type="text" id="observacao" placeholder="Observação" /> <!-- Novo campo de Observação -->
+                <input type="text" id="observacao" placeholder="Observação" />
             </div>
             <span>* dados obrigatórios</span>
             <button class="btnAdcionar" onclick="adicionarRegistro()">Adicionar</button>
@@ -37,9 +37,8 @@
                             <th>Quantidade Retirada</th>
                             <th>Código de Produção</th>
                             <th>Produto de Produção</th>
-                            <th>Quantidade para Produção</th>
                             <th>Data</th>
-                            <th>Observação</th> <!-- Nova coluna de Observação -->
+                            <th>Observação</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
@@ -52,7 +51,22 @@
         <footer>Desenvolvido por Flávio Monteiro &copy;</footer>
     </section>
 
-    <!-- Formulário de Edição (Oculto por padrão) -->
+    <!-- Lista de produtos para autocompletar -->
+    <datalist id="produtosList">
+        <option value="7897261800011 - Açúcar Caeté"></option>
+        <option value="7896110100012 - Sal 1"></option>
+        <option value="290815 - óleo"></option>
+        <option value="290858 - Leite em pó"></option>
+        <option value="290866 - Leite líquido"></option>
+        <option value="290793 - Creme de leite"></option>
+        <option value="7896215300980 - Leite de coco 01"></option>
+        <option value="7896215300065 - Leite de coco 02"></option>
+        <option value="7896012701218 - Gelo"></option>
+        <option value="0751320014788 - Ovos galinha"></option>
+        <option value="965491 - Coco seco"></option>
+    </datalist>
+
+    <!-- Formulário de edição -->
     <div id="formEdicao" class="formulario-edicao">
         <h2>Editar Registro</h2>
         <input type="text" id="editSetor" placeholder="* Setor" />
@@ -62,16 +76,13 @@
         <input type="number" id="editQuantOrigem" placeholder="* Quantidade Retirada" />
         <input type="text" id="editCodDestino" placeholder="Código de Produção" />
         <input type="text" id="editDescDestino" placeholder=" Produto de Produção" />
-        <input type="number" id="editQuantDestino" placeholder=" Quantidade para Produção" />
         <input type="date" id="editData" placeholder="Data" />
-        <input type="text" id="editObservacao" placeholder="Observação" /> <!-- Novo campo de Observação no formulário de edição -->
-        <button onclick="salvarEdicao()">Salvar</button>
-        <button onclick="cancelarEdicao()">Cancelar</button>
+        <input type="text" id="editObservacao" placeholder="Observação" />
+        <button class="salvar" onclick="salvarEdicao()">Salvar</button>
+        <button class="cancelar" onclick="cancelarEdicao()">Cancelar</button>
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

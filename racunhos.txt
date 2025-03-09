@@ -1,0 +1,13 @@
+ const produtos = {
+    "7897261800011": "Açúcar Caeté",
+    "7896110100012": "Sal 1 ",
+    "290815": "óleo ",
+    "290858": "Leite em pó ",
+    "290866": "Leite líquido ",
+    "290793": "Creme de leite ",
+    "7896215300980": "Leite de coco 01 ",
+    "7896215300065": "Leite de coco 02 ",
+    "7896012701218": "Gelo ",
+    "0751320014788": "Ovos galinha ",
+    "965491": "Coco seco"
+};
