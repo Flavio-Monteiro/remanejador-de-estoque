@@ -11,8 +11,7 @@
     "7896012701218": { descricao: "Gelo",             codigoDestino: "292524", descricaoDestino: "Gelo produção" },
     "0751320014788": { descricao: "Ovos galinha",     codigoDestino: "290840", descricaoDestino: "Ovos galinha produção" },
     "965491":        { descricao: "Coco seco",        codigoDestino: "965491", descricaoDestino: "Coco seco produção" },
-    "246810":        { descricao: "Prod Novo",        codigoDestino: "123456", descricaoDestino: "Prod. novo produ" },
-    "00000":         { descricao: "TESTE",            codigoDestino: "100000", descricaoDestino: "TESTE PRODUÇÃO" }
+
 };
 
 // Variáveis globais
@@ -287,16 +286,16 @@ function gerarPDF() {
         head: headers,
         body: rows,
         startY: posY + imgHeight + 10, // Posiciona após o cabeçalho
-        theme: "grid",
+       
         styles: {
-            fontSize: 8,
+            fontSize: 10,
             cellPadding: 2,
             textColor: [40, 40, 40],
             font: "helvetica"
         },
         headStyles: {
             fillColor: [51, 51, 51],
-            textColor: [255, 255, 255],
+            textColor: [255,255,255],
             fontSize: 10,
             fontStyle: "bold"
         },
