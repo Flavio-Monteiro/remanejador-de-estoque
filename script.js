@@ -1,16 +1,18 @@
   // Banco de dados de produtos
   const produtos = {
-    "7897261800011": { descricao: "Açúcar Caeté",     codigoDestino: "217018", descricaoDestino: "Açúcar produção" },
-    "7896110100012": { descricao: "Sal 1",            codigoDestino: "217000", descricaoDestino: "Sal produção" },
-    "290815":        { descricao: "Óleo",             codigoDestino: "290815", descricaoDestino: "Óleo produção" },
-    "290858":        { descricao: "Leite em pó",      codigoDestino: "290858", descricaoDestino: "Leite em pó prod." },
-    "290866":        { descricao: "Leite líquido",    codigoDestino: "290866", descricaoDestino: "Leite líquido prod." },
-    "290793":        { descricao: "Creme de leite",   codigoDestino: "290793", descricaoDestino: "Creme de leite prod." },
-    "7896215300980": { descricao: "Leite de coco 01", codigoDestino: "264580", descricaoDestino: "Leite de coco prod." },
-    "7896215300065": { descricao: "Leite de coco 02", codigoDestino: "264580", descricaoDestino: "Leite de coco prod." },
-    "7896012701218": { descricao: "Gelo",             codigoDestino: "292524", descricaoDestino: "Gelo produção" },
-    "0751320014788": { descricao: "Ovos galinha",     codigoDestino: "290840", descricaoDestino: "Ovos galinha produção" },
-    "965491":        { descricao: "Coco seco",        codigoDestino: "965491", descricaoDestino: "Coco seco produção" },
+    "7897261800011": { descricao: "Açúcar Caeté",       codigoDestino: "217018", descricaoDestino: "Açúcar produção" },
+    "7896110100012": { descricao: "Sal 1",              codigoDestino: "217000", descricaoDestino: "Sal produção" },
+    "290815":        { descricao: "Óleo",               codigoDestino: "290815", descricaoDestino: "Óleo produção" },
+    "290858":        { descricao: "Leite em pó",        codigoDestino: "290858", descricaoDestino: "Leite em pó prod." },
+    "290866":        { descricao: "Leite líquido",      codigoDestino: "290866", descricaoDestino: "Leite líquido prod." },
+    "290793":        { descricao: "Creme de leite",     codigoDestino: "290793", descricaoDestino: "Creme de leite prod." },
+    "7896215300980": { descricao: "Leite de coco 01",   codigoDestino: "264580", descricaoDestino: "Leite de coco prod." },
+    "7896215300065": { descricao: "Leite de coco 02",   codigoDestino: "264580", descricaoDestino: "Leite de coco prod." },
+    "7898403781298": { descricao: "Leite Condensado",   codigoDestino: "143545", descricaoDestino: "Leite Cond. Produção." },
+    "7896012701218": { descricao: "Gelo",               codigoDestino: "292524", descricaoDestino: "Gelo produção" },
+    "0751320014788": { descricao: "Ovos galinha",       codigoDestino: "290840", descricaoDestino: "Ovos galinha produção" },
+    "965491":        { descricao: "Coco seco",          codigoDestino: "965491", descricaoDestino: "Coco seco produção" },
+    "7891000285848": { descricao: "Caldo Maggi",        codigoDestino: "7891000285848", descricaoDestino: "Caldo Maggi" },
 
 };
 
